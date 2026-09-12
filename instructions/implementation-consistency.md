@@ -8,7 +8,7 @@ This repository maintains code snippets and canonical examples to reduce unneces
 
 When implementing or modifying code:
 
-1. Check whether a relevant repository snippet (stored in nu-shinkan.wiki/explanation/snippets/**) or canonical example exists.
+1. Check whether a relevant repository snippet (stored in nu-shinkan.wiki/snippets/**) or canonical example exists.
 2. Prefer established repository patterns over inventing a new equivalent structure.
 3. Adapt snippets to the current context rather than copying them mechanically.
 4. Preserve the intent and important structural conventions demonstrated by the snippet.
