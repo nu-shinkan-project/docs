@@ -1,3 +1,7 @@
+---
+relevant-to: Test
+---
+
 # 内部ロジックをtestExportsで公開する
 
 `testExports` は、通常の利用者へ個別に公開しない内部ロジックをテストから参照するための作例である。[テスト方針](../../policy/testing-policy.md)で検証対象になる内部モジュールだけに使う。

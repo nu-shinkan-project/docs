@@ -1,7 +1,8 @@
-# GitHub Actions のスクリプト作例
+---
+relevant-to: Github Actions
+---
 
-GitHub API 操作と Action 内のローカル処理の記述例を示す。
-適用する規約は[スクリプト実装の判断記録](../../ADR/26-09-09-workflow-script-guidelines.md)を参照する。
+# GitHub Actions のスクリプト作例
 
 ## GitHub Actions: github-script による GitHub API / コメント操作
 
@@ -30,7 +31,6 @@ GitHub REST API / PR・Issue コメント / Actions 出力操作 / 簡単なJSON
 
 - 15行以上のスクリプト
 - 分岐を含む複雑な構造
-
 
 ## GitHub Actions: Composite Action から同階層の .mjs 補助スクリプト呼び出し
 
