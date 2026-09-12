@@ -1,4 +1,6 @@
-# Wikiの運用目的
+# Wiki Home
+
+## Wikiの運用目的
 
 本Wikiは，
 
