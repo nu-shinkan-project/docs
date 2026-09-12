@@ -18,7 +18,7 @@ Inspect the directory trees of:
 
 Use file names and locations to identify potentially relevant documents.
 
-For each candidate, inspect its front matter and use `relevant-to` to determine whether it applies to the current task. Read the full content only when it is relevant.
+Use `relevant-to` only to filter candidate documents. For candidates that remain, read the full content and determine applicability from the document itself.
 
 Treat these document types according to their role:
 
