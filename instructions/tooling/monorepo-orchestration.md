@@ -1,5 +1,5 @@
 ---
-applies-to: "Running tasks across multiple workspaces, coordinating repository-wide builds, tests, linting, type checks, determining affected projects, or otherwise orchestrating work across the monorepo."
+relevant-to: "Running tasks across multiple workspaces, coordinating repository-wide builds, tests, linting, type checks, determining affected projects, or otherwise orchestrating work across the monorepo."
 ---
 
 # Monorepo Orchestration Instructions

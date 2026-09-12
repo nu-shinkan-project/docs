@@ -1,5 +1,5 @@
 ---
-applies-to: "Creating or modifying code in areas where repository-provided implementation examples or snippets exist."
+relevant-to: "Creating or modifying code in areas where repository-provided implementation examples or snippets exist."
 ---
 
 # Implementation Consistency Instructions

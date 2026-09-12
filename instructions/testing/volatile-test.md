@@ -1,5 +1,5 @@
 ---
-applies-to: "Any test created or used only as a temporary implementation aid and not intended to remain in the repository after the task is complete."
+relevant-to: "Any test created or used only as a temporary implementation aid and not intended to remain in the repository after the task is complete."
 ---
 
 # Volatile Tests

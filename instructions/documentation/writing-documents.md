@@ -1,5 +1,5 @@
 ---
-applies-to: "Creating, editing, or restructuring repository documentation, including reference documents, discussion documents, design documents, operational procedures, guides, and similar written documentation."
+relevant-to: "Creating, editing, or restructuring repository documentation, including reference documents, discussion documents, design documents, operational procedures, guides, and similar written documentation."
 ---
 
 # Instructions for Writing Documents

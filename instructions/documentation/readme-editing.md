@@ -1,5 +1,5 @@
 ---
-applies-to: "Creating, editing, or considering changes to any `README.md` file in this repository."
+relevant-to: "Creating, editing, or considering changes to any `README.md` file in this repository."
 ---
 
 # README Editing Policy

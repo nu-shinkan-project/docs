@@ -1,5 +1,5 @@
 ---
-applies-to: "Creating, changing, or removing tests"
+relevant-to: "Creating, changing, or removing tests"
 ---
 
 # Instructions for Test Scope

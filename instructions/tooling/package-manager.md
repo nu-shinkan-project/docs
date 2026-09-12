@@ -1,5 +1,5 @@
 ---
-applies-to: "Installing, removing, updating, or resolving dependencies; running package scripts; generating or modifying lockfiles; and any task that requires a JavaScript package manager."
+relevant-to: "Installing, removing, updating, or resolving dependencies; running package scripts; generating or modifying lockfiles; and any task that requires a JavaScript package manager."
 ---
 
 # Package Manager Instructions

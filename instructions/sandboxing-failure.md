@@ -1,5 +1,5 @@
 ---
-applies-to: "Command execution failures caused by nested sandboxing in a devcontainer."
+relevant-to: "Command execution failures caused by nested sandboxing in a devcontainer."
 ---
 
 # Sandboxing Failure Handling
