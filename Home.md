@@ -22,8 +22,3 @@
 | [templates/](templates/) | 文書作成用の雛形 |
 
 Skill 文書はメインリポジトリの `.agents/skills/` に配置します。
-ローカル文書は対象ディレクトリに置き、役割に応じたファイル名を使用します。
-
-ADR 作成時は [ADR テンプレート](templates/adr.md)の ID・日時を実際の値に置き換え、
-`YY-MM-DD-[title].md` として保存します。新規 ADR は `draft` / `pending` です。
-知見文書は[知見テンプレート](templates/lesson.md)から作成します。
