@@ -7,7 +7,7 @@ relevant-to: Creating, modifying, or reorganizing agent instructions and skills
 Follow the [documentation policy](../../policy/documentation.md) for placement,
 classification, metadata, and editing permissions.
 
-* Put global behavioral rules in `nu-shinkan.wiki/instructions/`, local instructions
+* Put global behavioral rules in `docs/instructions/`, local instructions
   in the affected directory, and task-specific procedures in `.agents/skills/`.
 * Use concrete file and directory names that identify the subject. Avoid `misc/`
   and `other/`. Add hierarchy when it improves discovery, not to balance file counts.

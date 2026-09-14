@@ -4,7 +4,7 @@ relevant-to: All tasks
 
 # Repository Context Discovery
 
-First, read `nu-shinkan.wiki/policy/documentation.md` to understand the documentation system and its conventions.
+First, read `docs/policy/documentation.md` to understand the documentation system and its conventions.
 
 Then discover the context relevant to the current task in the following order.
 
@@ -12,9 +12,9 @@ Then discover the context relevant to the current task in the following order.
 
 Inspect the directory trees of:
 
-* `nu-shinkan.wiki/instructions/`
-* `nu-shinkan.wiki/policy/`
-* `nu-shinkan.wiki/lessons/`
+* `docs/instructions/`
+* `docs/policy/`
+* `docs/lessons/`
 
 Use file names and locations to identify potentially relevant documents.
 
@@ -30,7 +30,7 @@ Applicable instructions and policies must be followed. Relevant lessons should b
 
 ## 2. Design Context
 
-Inspect the directory tree of `nu-shinkan.wiki/design/`.
+Inspect the directory tree of `docs/design/`.
 
 Identify and read documents relevant to the current task to understand the existing design, structure, and intended behavior before making substantial changes.
 
@@ -38,8 +38,8 @@ Identify and read documents relevant to the current task to understand the exist
 
 When necessary, inspect relevant documents in:
 
-* `nu-shinkan.wiki/explanation/`
-* `nu-shinkan.wiki/ADR/`
+* `docs/explanation/`
+* `docs/ADR/`
 * `.agents/skills/`
 
 Use these sources when additional background, historical decisions, rationale, or task-specific procedures are needed.
