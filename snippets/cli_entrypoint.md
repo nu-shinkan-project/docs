@@ -4,7 +4,7 @@ relevant-to: CLI
 
 # CLIエントリーポイントと内部ロジックの分離
 
-[CLIの作成方針](../../policy/make-cli.md)に基づき、CLIの入出力と内部ロジックを別ファイルに置く作例。
+[CLIの作成方針](../policy/make-cli.md)に基づき、CLIの入出力と内部ロジックを別ファイルに置く作例。
 
 ## CLI
 

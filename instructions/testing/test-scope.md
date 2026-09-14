@@ -4,7 +4,7 @@ relevant-to: "Creating, changing, or removing tests"
 
 # Instructions for Test Scope
 
-作業前に[テスト方針](../../policy/testing-policy.md)を読み、検証対象の判断とテスト設計に従う。既存実装を根拠に方針の例外を設けない。
+作業前に[テスト方針](../../policy/testing.md)を読み、検証対象の判断とテスト設計に従う。既存実装を根拠に方針の例外を設けない。
 
 特に、次の禁止事項を守る。
 
