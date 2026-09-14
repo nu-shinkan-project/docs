@@ -6,3 +6,10 @@ docsリポジトリは，[メインリポジトリ](https://github.com/nu-shinka
 逆に，メインリポジトリのライフサイクルと密接に関わる文書（ローカル文書）は保管されません．
 
 例えば，大方針や，システム全体に関わる設計などは，ドキュメントリポジトリ（本リポジトリ）で運用されます．詳しくは文書運用規則をご覧ください．
+
+## 文書の共同・リアルタイム編集がしたい場合
+
+いくつかのオプションがあります．
+
+- 全員がVSCode(もしくはVSCode系エディタ)を開ける環境であれば，[Live Share](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) が一番の選択肢です．
+- もし，Webで完結させたいのであれば，[HackMD](https://hackmd.io/)でNoteを作成し，Githubと連携して編集したいファイルをPull．Noteをshareすると，同時編集ができます．
