@@ -95,7 +95,7 @@ purpose が `review` の場合は，同じ PR の実行中の要求をキャン�
 }
 ```
 
-`workerName` は対象コミットの `wrangler.jsonc` の `name` を計画時に収集した値で、channelのサフィックスを含みません。Worker設定のない候補では省略します。後続にはこの配列を `TARGETS` として渡し、Worker名の再収集や別環境変数による受け渡しは行いません。
+`workerName` は対象コミットの `wrangler.jsonc` の `name` を計画時に収集した値で、channelのサフィックスを含みません。
 
 `changes` はテスト対象，`targets` はデプロイ候補です．どちらにも `scripts.test`や`scripts.deploy` のないパッケージが含まれ得ます．計画時にはこれを除外せず，実行時にテスト・デプロイをスキップします．
 

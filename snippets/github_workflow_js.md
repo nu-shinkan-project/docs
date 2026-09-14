@@ -27,11 +27,6 @@ GitHub REST API / PR・Issue コメント / Actions 出力操作 / 簡単なJSON
       });
 ```
 
-次の場合は，Action化 + 補助スクリプトへの抽出を検討します
-
-- 15行以上のスクリプト
-- 分岐を含む複雑な構造
-
 ## GitHub Actions: Composite Action から同階層の .mjs 補助スクリプト呼び出し
 
 ローカルロジック（複雑なGit操作、ファイル解析等）は Action 直下に同封した `.mjs` 補助スクリプトとして実行します。
