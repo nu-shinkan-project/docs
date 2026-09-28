@@ -253,4 +253,4 @@ mode (`update`, `diff`) は，前回のタグ位置と比較します．前回�
 
 ## 実装の責務境界
 
-workspaceの取得・検証・Worker情報収集は `scripts/workspace/`、計画とタスク実行・結果集計は `scripts/deploy/` が担当する。`.github/` は入力の取得とGitHub固有の制御・通知を担当し、CLIとJSONでリポジトリ処理へ接続する。
+workspaceの取得・検証・Worker情報収集は `tools/workspace/`、計画とタスク実行・結果集計は `tools/deploy/` が担当する。`.github/` は入力の取得とGitHub固有の制御・通知を担当し、CLIとJSONでリポジトリ処理へ接続する。
