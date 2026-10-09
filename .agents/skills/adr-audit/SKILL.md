@@ -1,13 +1,13 @@
 ---
 name: adr-audit
-description: "Nightly監査で呼び出し、docsのmain上のdraft ADRの整合性を確認する。規約に従ってstatus・auditと置換対象の状態を更新する。"
+description: "指定されたdraft ADRの整合性を確認する。規約に従ってstatus・auditと置換対象の状態を更新する。"
 ---
 
-# NightlyのADR監査
+# draft ADRの監査と状態更新
 
-[文脈探索](../context-discovery/SKILL.md)で確認した規約を使い、[Nightly監査](../../../policy/documentation.md#nightly-監査)と[ADRの置換](../../../policy/documentation.md#adr-の置換)の規定に従う。以下のコマンドは、監査対象のmainの文書があるdocsルートから実行する。収集・検証コマンド自体は文書を更新しない。
+[文脈探索](../context-discovery/SKILL.md)で確認した規約を使い、[Nightly監査](../../../policy/documentation.md#nightly-監査)と[ADRの置換](../../../policy/documentation.md#adr-の置換)の規定に従う。以下のコマンドはdocsルートから実行する。収集・検証コマンド自体は文書を更新しない。
 
-1. docsリポジトリのmain上のADRを確認し、statusがdraftのADRを監査対象とする。比較するADRと置換対象も含めて、[収集コマンド](../context-discovery/references/metadata-collection.md)でADR全体を収集する。
+1. 指定されたADRのstatusがdraftであることを確認する。比較するADRと置換対象も含めて、[収集コマンド](../context-discovery/references/metadata-collection.md)でADR全体を収集する。
 
    ```sh
    node .agents/skills/context-discovery/scripts/collect-frontmatter.mjs --docs-root . --path docs:ADR > /tmp/adr-collection.json
