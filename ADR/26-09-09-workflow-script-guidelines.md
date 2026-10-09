@@ -3,6 +3,10 @@ id: main-20260909-224754
 created-at: 2026-09-09T22:47:54+09:00
 status: accepted
 audit: passed
+relevant-to:
+  - GitHub Actions workflows
+  - Composite Actions
+  - GitHub Actions helper scripts
 ---
 
 # ADR: GitHub Actions スクリプト実装ガイドライン
