@@ -4,6 +4,11 @@ relevant-to: All tasks
 
 # Repository Context Discovery
 
+Paths below assume the main repository root with this repository at `docs/`.
+In a standalone docs checkout, interpret `docs/` as this repository root.
+Discover local skills in this repository’s `.agents/skills/`; when working in
+the main repository, also inspect its `.agents/skills/` as needed.
+
 First, read `docs/policy/documentation.md` to understand the documentation system and its conventions.
 
 Then discover the context relevant to the current task in the following order.
