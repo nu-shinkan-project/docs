@@ -6,13 +6,13 @@
 
 ## 複数のブランチを同時に扱う
 
-複数のブランチを同時に扱いたい場合は、`git worktree` を利用できる。
+並行作業を行う方法としては，(`git worktree`ではなく) ワークスペースごとにcloneを行う方法をすすめる．
+devcontainer内で作業する都合上，ホストで`git worktree`によって並行作業用のワークスペースを切っても，devcontainer内では見えないためである．
 
-`git worktree` を使うと、同じリポジトリに対して複数の作業ディレクトリを作成し、それぞれ別のブランチをチェックアウトできる。
-
-たとえば、通常の開発を続けながら別の Pull Request を確認したり、緊急の `hotfix` を並行して行ったりする場合に便利である。
-
-複数回 `git clone` する場合と異なり、Git のオブジェクトは共有される。
+devcontainer内で`git worktree`を用いてdevcontainer内にワークスペースを作成し，
+File > New Window(Ctrl + Shift + N)で新しいウィンドウを立ち上げて，
+devcontainer内で作成したワークスペースを選択するという方法もある．
+nu-shinkanリポジトリを単体で配置している場合はこちらのほうが手軽だが，不意にdevcontainerをリビルドするとワークスペースがまるごと消失する危険性もある．
 
 ## PoC リポジトリを参照しながら開発する
 
