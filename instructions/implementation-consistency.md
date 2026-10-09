@@ -6,13 +6,13 @@ relevant-to: "Creating or modifying code in areas where repository-provided impl
 
 This repository maintains code snippets and canonical examples to reduce unnecessary variation in implementation.
 
-When implementing or modifying code:
+Consider relevant repository snippets and canonical examples when implementing or
+modifying code.
 
-1. Check whether a relevant repository snippet (stored in docs/snippets/**) or canonical example exists.
-2. Prefer established repository patterns over inventing a new equivalent structure.
-3. Adapt snippets to the current context rather than copying them mechanically.
-4. Preserve the intent and important structural conventions demonstrated by the snippet.
-5. Do not introduce a competing pattern without a concrete reason.
+* Prefer established repository patterns over inventing a new equivalent structure.
+* Adapt snippets to the current context rather than copying them mechanically.
+* Preserve the intent and important structural conventions demonstrated by the snippet.
+* Do not introduce a competing pattern without a concrete reason.
 
 Snippets are examples, not immutable source code.
 

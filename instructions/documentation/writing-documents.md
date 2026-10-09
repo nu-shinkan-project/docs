@@ -8,10 +8,8 @@ relevant-to: "Creating, editing, or restructuring repository documentation, incl
 
 Choose the document type based on its intended audience and use, not its title or file format.
 
-| Type                | Intended use                                                                                               | Examples                                                                                 |
-| ------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Discussion document | Help participants in the current conversation review progress, discuss options, or decide what to do next. | Status summaries, proposed implementation plans, work reports, discussion records.       |
-| Reference document  | Help readers understand or perform something without access to the current conversation.                   | Tool and command guides, onboarding materials, design documents, operational procedures. |
+Discussion documents support the current conversation. Reference documents serve
+readers performing a task without access to that conversation.
 
 - If the document is intended for future readers or serves both purposes, apply the reference-document rules below.
 - When editing an existing document, preserve its intended purpose and organize additions accordingly.
@@ -30,9 +28,7 @@ Choose the document type based on its intended audience and use, not its title o
 ### Organize by the reader's task or understanding
 
 - Present information from general concepts to specific details, and from prerequisites to dependent steps.
-- For a guide, explain what the tool does, what is required, how to use it, and how to recognize success.
-- For a design document, explain the problem and constraints, the design, and the reasons for consequential choices.
-- Use only the sections needed for the document's purpose; these examples are not mandatory templates.
+- Use only the sections needed for the document's purpose. No particular section structure is mandatory.
 
 ### Describe the resulting design or procedure
 
@@ -41,19 +37,3 @@ Choose the document type based on its intended audience and use, not its title o
 - Omit abandoned proposals, intermediate drafts, and conversational corrections unless they are needed to explain a decision or the document explicitly records history.
 - If a decision is unresolved, label it as unresolved. Do not present a proposal as an agreed fact.
 - When editing, integrate changes into the relevant sections and update conflicting statements rather than appending a conversational addendum.
-
-For example, if the agreed procedure is to run validation before deployment:
-
-- Avoid: "We first planned to deploy immediately, but then agreed to add validation."
-- Prefer: "Run validation before deployment to catch configuration errors before they reach the deployed environment."
-
-## 3. Review reference documents before finishing
-
-Check the following and revise any item that fails:
-
-- Can a reader identify the document's purpose without reading the chat?
-- Are necessary concepts and prerequisites introduced before they are used?
-- Can the reader follow the explanation or procedure using the document and its linked references?
-- Does the structure follow the reader's needs rather than the chronology of the conversation?
-- Are final decisions, proposals, and unresolved questions clearly distinguished where applicable?
-- Have edits been integrated without leaving contradictory or outdated statements?
