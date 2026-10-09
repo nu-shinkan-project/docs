@@ -1,0 +1,12 @@
+{
+  "name": "@docs/docs-audit",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  },
+  "packageManager": "pnpm@11.23.0"
+}
