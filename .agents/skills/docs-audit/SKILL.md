@@ -1,6 +1,6 @@
 ---
 name: docs-audit
-description: "指定した文書の現状を文書運用規則・品質要件・参照先と照合して監査する。基本metadata検証コマンドを提供する。変更差分のレビューはdocumentation-reviewに委ねる。"
+description: "指定した文書の現状を文書運用規則・品質要件・参照先と照合して監査する。基本metadata検証コマンドを提供する。"
 ---
 
 # 文書の現状監査

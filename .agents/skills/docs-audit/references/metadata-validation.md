@@ -12,11 +12,11 @@ node .agents/skills/docs-audit/scripts/check-document-metadata.mjs --input /tmp/
 node docs/.agents/skills/docs-audit/scripts/check-document-metadata.mjs --input /tmp/documents.json
 ```
 
-`--input -` はstdinを読む。両検証コマンドはschemaVersion=1と入力構造を確認する。未対応版・不正JSONは入力エラーとなる。ファイルの補完・状態更新は行わない。
+`--input -` はstdinを読む。check-document-metadata.mjsはschemaVersion=1と入力構造を確認する。未対応版・不正JSONは入力エラーとなる。ファイルの補完・状態更新は行わない。
 
 ## 適用する検査
 
-- ADRはid・created-at・relevant-to。idの既存の命名形式は強制しない。created-atはタイムゾーン付きのカレンダー上有効なISO 8601日時。status・audit・supersedesの検査はadr-auditが管理する。
+- ADRはid・created-at・relevant-to。idは空でない文字列であることを確認し、命名形式は検査しない。created-atはタイムゾーン付きのカレンダー上有効なISO 8601日時。status・audit・supersedesの検査はadr-auditが管理する。
 - グローバル指示・Snippet・知見はrelevant-to。文字列または文字列リストを認める。空文字列・空リストは補助警告であり規約違反としない。
 - Skillは標準metadataのname・description。独自のrelevant-to必須条件を追加しない。
 - policy・design・explanation・ローカル文書にはrelevant-toを一律に要求しない。

@@ -16,7 +16,7 @@ pnpm --dir .agents/skills/context-discovery install --ignore-workspace --frozen-
 node .agents/skills/context-discovery/scripts/collect-frontmatter.mjs --docs-root . > /tmp/documents.json
 ```
 
-内部ロジックのテストは同じ `--dir` と `--ignore-workspace` を指定して `pnpm test` を実行する。依存導入前に[package-manager指示](../../../../instructions/tooling/package-manager.md)を確認する。Node・依存が未準備ならSKILL.mdの手動探索を使う。
+内部ロジックのテストはdocsルートから `pnpm --dir .agents/skills/context-discovery --ignore-workspace test` を実行する。メインルートから実行する場合はdirに `docs/` を付ける。依存導入前に[package-manager指示](../../../../instructions/tooling/package-manager.md)を確認する。Node・依存が未準備ならSKILL.mdの手動探索を使う。
 
 ## 対象
 
