@@ -15,10 +15,10 @@ export async function collectDocuments({ roots, selections }) {
       const rootId = ['docs', 'main'].find((id) => roots[id] && within(roots[id], target));
       if (!rootId) throw new Error('Target is outside the selected roots.');
       if (visited.has(target)) return;
-      visited.add(target);
       const localPath = relative(roots[rootId], target).replaceAll('\\', '/');
       if (localPath.split('/').some((part) => excludedNames.has(part))) return;
       if (!includeTemplates && localPath.split('/').includes('templates')) return;
+      visited.add(target);
       const targetInfo = info.isSymbolicLink() ? await lstat(target) : info;
       if (targetInfo.isDirectory()) {
         const children = await readdir(target);

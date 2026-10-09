@@ -62,3 +62,12 @@ test('parse and enumeration failures report incomplete scanning without losing c
   assert.ok(result.diagnostics.some((item) => item.code === 'directory-unreadable'));
   assert.ok(result.diagnostics.some((item) => item.code === 'scanning-incomplete'));
 });
+
+test('a template skipped in a broad selection can still be explicitly selected later', async (t) => {
+  const { docs } = await fixture(t);
+  await mkdir(join(docs, 'templates'));
+  await writeFile(join(docs, 'templates/adr.md'), '---\nid: placeholder\n---');
+  const selection = await resolveSelections({ docsRoot: docs, paths: ['docs:.', 'docs:templates/adr.md'] });
+  const result = await collectDocuments(selection);
+  assert.deepEqual(result.documents.map((item) => item.kind), ['template']);
+});
