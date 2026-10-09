@@ -1,0 +1,19 @@
+name: Report ADR conflicts
+description: Create an issue for each conflicting draft ADR without duplicating open issues.
+inputs:
+  result-directory:
+    description: Directory containing the nightly ADR audit artifact.
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: actions/github-script@v9
+      env:
+        ACTION_PATH: ${{ github.action_path }}
+        RESULT_DIRECTORY: ${{ inputs.result-directory }}
+      with:
+        script: |
+          const { pathToFileURL } = require('node:url');
+          const { join } = require('node:path');
+          const { reportConflicts } = await import(pathToFileURL(join(process.env.ACTION_PATH, 'report.mjs')).href);
+          await reportConflicts({ github, context, core, resultDirectory: process.env.RESULT_DIRECTORY });
