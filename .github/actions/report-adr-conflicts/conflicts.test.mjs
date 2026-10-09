@@ -20,31 +20,50 @@ const collection = (...documents) => ({
   diagnostics: [],
 });
 
-test("only conflicting draft ADRs are reported, including unchanged conflicts", () => {
+test("only conflicts found among this run's pending draft targets are reported", () => {
   const conflict = adr("conflict");
   assert.deepEqual(
     selectConflicts(
       collection(
         conflict,
+        adr("existing-conflict"),
         adr("pending", "draft", "pending"),
         adr("accepted", "accepted", "conflict"),
         adr("passed", "draft", "passed"),
         { ...adr("other"), kind: "local-document" },
         { ...adr("main"), rootId: "main" },
       ),
+      collection(
+        adr("conflict", "draft", "pending"),
+        adr("existing-conflict", "draft", "conflict"),
+        adr("pending", "draft", "pending"),
+        adr("accepted", "accepted", "pending"),
+        adr("passed", "draft", "passed"),
+        { ...adr("other", "draft", "pending"), kind: "local-document" },
+        { ...adr("main", "draft", "pending"), rootId: "main" },
+      ),
     ),
     [conflict],
   );
-  assert.deepEqual(selectConflicts(collection()), []);
+  assert.deepEqual(selectConflicts(collection(), collection()), []);
+  assert.deepEqual(
+    selectConflicts(collection(adr("existing")), collection(adr("existing"))),
+    [],
+  );
 });
 
 test("incomplete collection is not reported as no conflicts", () => {
   assert.throws(
     () =>
-      selectConflicts({
-        ...collection(),
-        diagnostics: [{ code: "scanning-incomplete", message: "Read failed" }],
-      }),
+      selectConflicts(
+        {
+          ...collection(),
+          diagnostics: [
+            { code: "scanning-incomplete", message: "Read failed" },
+          ],
+        },
+        collection(),
+      ),
     /incomplete/,
   );
   assert.throws(
@@ -56,15 +75,34 @@ test("incomplete collection is not reported as no conflicts", () => {
             { code: "document-unreadable", message: "Read failed" },
           ],
         }),
+        collection(adr("broken", "draft", "pending")),
       ),
     /incomplete/,
   );
-  assert.throws(() => selectConflicts({ schemaVersion: 2 }), /schemaVersion/);
+  assert.throws(
+    () => selectConflicts({ schemaVersion: 2 }, collection()),
+    /schemaVersion/,
+  );
+  assert.throws(
+    () =>
+      selectConflicts(collection(), {
+        ...collection(),
+        diagnostics: [{ code: "scanning-incomplete", message: "Read failed" }],
+      }),
+    /incomplete/,
+  );
 });
 
 test("missing and duplicate conflict identities stop issue creation", () => {
   for (const id of [undefined, "", " "]) {
-    assert.throws(() => selectConflicts(collection(adr(id))), /no valid ID/);
+    assert.throws(
+      () =>
+        selectConflicts(
+          collection(adr(id)),
+          collection(adr(id, "draft", "pending")),
+        ),
+      /no valid ID/,
+    );
   }
   assert.throws(
     () =>
@@ -73,6 +111,7 @@ test("missing and duplicate conflict identities stop issue creation", () => {
           adr("duplicate"),
           adr("duplicate", "accepted", "passed", "ADR/other.md"),
         ),
+        collection(adr("duplicate", "draft", "pending")),
       ),
     /duplicate ID/,
   );

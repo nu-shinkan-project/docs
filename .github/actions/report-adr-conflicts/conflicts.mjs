@@ -1,6 +1,10 @@
 import { assertCollection } from "../../../.agents/skills/adr-audit/scripts/lib/adr-metadata.mjs";
+import { selectAuditTargets } from "../prepare-adr-audit/targets.mjs";
 
-export function selectConflicts(collection) {
+export function selectConflicts(collection, before) {
+  const targetPaths = new Set(
+    selectAuditTargets(before).map(({ path }) => path),
+  );
   assertCollection(collection);
   if (
     collection.diagnostics.length ||
@@ -14,8 +18,10 @@ export function selectConflicts(collection) {
     (document) => document.rootId === "docs" && document.kind === "adr",
   );
   const conflicts = adrs.filter(
-    ({ metadata }) =>
-      metadata.status === "draft" && metadata.audit === "conflict",
+    ({ path, metadata }) =>
+      targetPaths.has(path) &&
+      metadata.status === "draft" &&
+      metadata.audit === "conflict",
   );
   for (const conflict of conflicts) {
     const { id } = conflict.metadata;

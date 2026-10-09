@@ -21,6 +21,7 @@ jobs:
     timeout-minutes: 30
     outputs:
       commit: ${{ steps.checkout.outputs.commit }}
+      has-targets: ${{ steps.targets.outputs.has-targets }}
     steps:
       - uses: actions/checkout@v7
         id: checkout
@@ -35,7 +36,13 @@ jobs:
           package_json_file: .agents/skills/context-discovery/package.json
       - name: Install metadata collection dependencies
         run: pnpm --dir .agents/skills/context-discovery install --frozen-lockfile
+      - name: Select pending draft ADRs
+        id: targets
+        uses: ./.github/actions/prepare-adr-audit
+        with:
+          result-directory: ${{ runner.temp }}
       - name: Invoke adr-audit with GitHub Copilot
+        if: steps.targets.outputs.has-targets == 'true'
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_COPILOT_PROMPT_MODE_EXTENSIONS: "true"
@@ -44,7 +51,10 @@ jobs:
             このcheckoutはdocsリポジトリのmainです。
             AGENTS.mdとcontext-discoveryの手順に従い、
             .agents/skills/adr-audit/SKILL.mdを読んで実行してください。
-            ADR/内のすべてのdraft ADRを対象とし、audit: conflictも再監査します。
+            このプロンプト末尾のJSON配列に記録されたADRだけを監査対象にします。
+            監査対象はstatus: draftかつaudit: pendingのADRだけです。
+            audit: conflict・passedや状態が未指定のADRは監査しません。
+            関連ADRは比較のために参照できますが、監査対象に追加しません。
             metadata検証だけでなく関連ADRの全文を比較してください。
             意図された置換と意図しない競合を区別し、評価できない対象は通過扱いにしません。
             規約とスキルに従ってstatus・audit・置換対象のstatusを更新してください。
@@ -57,12 +67,13 @@ jobs:
           echo "Starting Copilot ADR audit on main."
           git rev-parse HEAD > "$RUNNER_TEMP/adr-audit-base.txt"
           pnpm dlx --silent @github/copilot@latest \
-            --prompt "$AUDIT_PROMPT" --silent --no-ask-user \
+            --prompt "$AUDIT_PROMPT $(cat "$RUNNER_TEMP/adr-audit-targets.json")" --silent --no-ask-user \
             --disable-builtin-mcps --add-dir /tmp \
             --allow-tool='read,write,shell(node:*),shell(rg:*),shell(cat:*),shell(ls:*)' \
             > "$RUNNER_TEMP/adr-audit-report.md"
           echo "Copilot ADR audit completed."
       - name: Collect ADR changes
+        if: steps.targets.outputs.has-targets == 'true'
         run: |
           git diff --binary HEAD -- ADR/ > "$RUNNER_TEMP/adr-audit.patch"
           if test -s "$RUNNER_TEMP/adr-audit.patch"; then
@@ -71,6 +82,7 @@ jobs:
             echo "ADR metadata was unchanged; see the audit report for details."
           fi
       - name: Collect audited ADR metadata for conflict reporting
+        if: steps.targets.outputs.has-targets == 'true'
         run: |
           node .agents/skills/context-discovery/scripts/collect-frontmatter.mjs \
             --docs-root . --path docs:ADR > "$RUNNER_TEMP/adr-audit-metadata.json"
@@ -88,6 +100,8 @@ jobs:
           name: adr-audit-result
           path: |
             ${{ runner.temp }}/adr-audit-base.txt
+            ${{ runner.temp }}/adr-audit-before.json
+            ${{ runner.temp }}/adr-audit-targets.json
             ${{ runner.temp }}/adr-audit-metadata.json
             ${{ runner.temp }}/adr-audit.patch
             ${{ runner.temp }}/adr-audit-report.md
@@ -95,6 +109,7 @@ jobs:
 
   report-conflicts:
     needs: audit
+    if: needs.audit.outputs.has-targets == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
