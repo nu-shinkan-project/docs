@@ -1,4 +1,4 @@
-import { assertCollection } from "../../../.agents/skills/adr-audit/scripts/lib/adr-metadata.mjs";
+import { assertCollection } from "./adr-metadata.mjs";
 
 export function selectAuditTargets(collection) {
   assertCollection(collection);

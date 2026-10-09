@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { selectAuditTargets } from "./targets.mjs";
+import { selectAuditTargets } from "../../../.agents/skills/adr-audit/scripts/lib/adr-audit-targets.mjs";
 
 export async function prepareAudit({ core, resultDirectory }) {
   const collection = JSON.parse(

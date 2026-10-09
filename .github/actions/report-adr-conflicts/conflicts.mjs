@@ -1,5 +1,5 @@
 import { assertCollection } from "../../../.agents/skills/adr-audit/scripts/lib/adr-metadata.mjs";
-import { selectAuditTargets } from "../prepare-adr-audit/targets.mjs";
+import { selectAuditTargets } from "../../../.agents/skills/adr-audit/scripts/lib/adr-audit-targets.mjs";
 
 export function selectConflicts(collection, before) {
   const targetPaths = new Set(

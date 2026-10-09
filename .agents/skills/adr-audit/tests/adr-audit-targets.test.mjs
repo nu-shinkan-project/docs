@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { selectAuditTargets } from "./targets.mjs";
+import { selectAuditTargets } from "../scripts/lib/adr-audit-targets.mjs";
 
 const adr = (id, status, audit) => ({
   rootId: "docs",

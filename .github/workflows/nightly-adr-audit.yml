@@ -52,12 +52,6 @@ jobs:
             AGENTS.mdとcontext-discoveryの手順に従い、
             .agents/skills/adr-audit/SKILL.mdを読んで実行してください。
             このプロンプト末尾のJSON配列に記録されたADRだけを監査対象にします。
-            監査対象はstatus: draftかつaudit: pendingのADRだけです。
-            audit: conflict・passedや状態が未指定のADRは監査しません。
-            関連ADRは比較のために参照できますが、監査対象に追加しません。
-            metadata検証だけでなく関連ADRの全文を比較してください。
-            意図された置換と意図しない競合を区別し、評価できない対象は通過扱いにしません。
-            規約とスキルに従ってstatus・audit・置換対象のstatusを更新してください。
             編集は既存ADRのfront matterに限定し、本文や他のファイルは変更しません。
             更新差分はartifactとして保存されます。git commitやpushは実行しません。
             最終回答は日本語で、対象、監査結果、metadataの更新、未評価の範囲を報告し、
