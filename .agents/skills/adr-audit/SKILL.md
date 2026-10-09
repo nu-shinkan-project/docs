@@ -1,20 +1,27 @@
 ---
 name: adr-audit
-description: "ADRのmetadata・置換関係・判断内容を監査する。通常の監査報告と規約に基づくNightly状態遷移を区別し、競合する判断の採否は別途扱う。"
+description: "Nightly監査で呼び出し、docsのmain上のdraft ADRの整合性を確認する。規約に従ってstatus・auditと置換対象の状態を更新する。"
 ---
 
-# ADR監査
+# NightlyのADR監査
 
-[文脈探索](../context-discovery/SKILL.md)を済ませ、[文書運用規則のADR節](../../../policy/documentation.md#adr)を読む。docs単独の場合はdocsルートを、メインの場合は `docs/` を対象にする。ここにあるコマンドは読取・検証専用で、状態を自動更新しない。
+[文脈探索](../context-discovery/SKILL.md)で確認した規約を使い、[Nightly監査](../../../policy/documentation.md#nightly-監査)と[ADRの置換](../../../policy/documentation.md#adr-の置換)の規定に従う。以下のコマンドは、監査対象のmainの文書があるdocsルートから実行する。収集・検証コマンド自体は文書を更新しない。
 
-1. 通常の現状監査かNightlyの状態遷移を含む処理かを確認する。通常の監査は依頼範囲を対象にする。ADR全体の監査では収集側に `--path docs:ADR` を指定して全体を収集する。Nightlyでは規約が定めるmain上のdraftを対象とし、比較する関連ADRも読む。
-2. context-discoveryの収集JSONについて[docs-auditの基本metadata検証](../docs-audit/references/metadata-validation.md)と固有検証を実行する。docsルートからの例：
+1. docsリポジトリのmain上のADRを確認し、statusがdraftのADRを監査対象とする。比較するADRと置換対象も含めて、[収集コマンド](../context-discovery/references/metadata-collection.md)でADR全体を収集する。
 
    ```sh
+   node .agents/skills/context-discovery/scripts/collect-frontmatter.mjs --docs-root . --path docs:ADR > /tmp/adr-collection.json
+   ```
+
+2. 収集時の診断を確認し、[基本metadata検証](../docs-audit/references/metadata-validation.md)とADR固有の検証を実行する。
+
+   ```sh
+   node .agents/skills/docs-audit/scripts/check-document-metadata.mjs --input /tmp/adr-collection.json
    node .agents/skills/adr-audit/scripts/check-adr-metadata.mjs --input /tmp/adr-collection.json
    ```
 
-   `--input -` はstdin。JSON出力と終了コードはdocs-auditの検証契約に従う。固有検証は入力中の状態値、ID重複、supersedesの型と参照関係を確認する。入力にない参照先、状態の未指定、自己参照・循環は確認用の警告であり、入力外のADRの不在や追加の禁止規則を意味しない。未指定のIDや収集失敗で必要な検査ができない場合は未評価となる。警告・未評価と実際の規約違反を区別する。
+   固有検証は状態値、ID重複、supersedesの型と参照関係を確認する。入力にない参照先、状態の未指定、自己参照・循環は確認用の警告であり、それだけで規約違反と断定しない。未指定のIDや収集失敗で必要な検査ができない場合は未評価となる。JSON出力と終了コードは基本metadata検証と同じ契約に従う。
 
-3. 対象ADRと関連ADRの全文を読み、適用範囲・判断・理由を比較する。意図された置換か、意図しない競合かを判断し、metadata検査の通過だけで本文監査を通過扱いにしない。未解決の参照は文書を調べる。
-4. 通常の監査では指摘と未評価を報告する。Nightly処理では規約の遷移条件を満たしてからdraftのstatus・auditと置換対象の状態を更新する。競合する判断のどれを採用するかを監査だけで決めない。
+3. 対象ADRと関連ADRの全文を読み、適用範囲・判断・理由を比較する。supersedesによる意図された置換と、意図しない競合を区別する。未解決の参照は文書を調べ、metadata検査の通過だけで本文監査を通過扱いにしない。
+4. 監査を通過したdraft ADRはstatusをaccepted、auditをpassedに更新する。競合が確認された場合はstatusをdraftに維持し、auditをconflictに更新する。新しいADRの採用時には、supersedesが示すaccepted ADRをsupersededに更新する。評価できなかった対象は通過扱いにしない。競合する判断のどれを採用するかは別途判断する。
+5. 対象ADR、監査結果、metadataの更新内容、評価できなかった範囲を報告する。
