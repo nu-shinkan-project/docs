@@ -182,7 +182,7 @@ purpose が `review` の場合は，変更をレビューする人へ，確認�
 
 purpose が `update` の場合は，selection source を `full` とした mode (`update`, `full`) を使用し，対象の版にあるデプロイ可能な全パッケージを再デプロイします．また，mode (`update`, `diff`) の計画中に比較基準がないなどの理由で差分を正しく検出できない場合も，対象の版を維持して (`update`, `full`) に切り替えます．
 
-purpose が `review` の場合は，selection source を `manual-pick` とした mode (`review`, `manual-pick`) を使用します．デプロイを要求する人が起点となるパッケージを指定し，その影響先と確認に必要な利用経路から対象を選び直します．
+purpose が `review` の場合は，selection source を `manual-pick` とした mode (`review`, `manual-pick`) を使用します．デプロイを要求する人が起点となるパッケージを指定し，その影響先と確認に必要な利用経路から対象を選び直します． (`review`, `manual-pick`) は自動フォールバックせず，失敗を通知するにとどめます．
 
 フォールバックの具体的な起動方法や切り替え条件は，[設計ドキュメント](deploy-design.md)で定めます．
 
