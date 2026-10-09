@@ -1,0 +1,115 @@
+name: Nightly ADR audit
+
+on:
+  schedule:
+    # 03:00 JST
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  copilot-requests: write
+
+concurrency:
+  group: nightly-adr-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      commit: ${{ steps.checkout.outputs.commit }}
+    steps:
+      - uses: actions/checkout@v7
+        id: checkout
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - uses: pnpm/action-setup@v6.1.0
+        with:
+          package_json_file: .agents/skills/context-discovery/package.json
+      - name: Install metadata collection dependencies
+        run: pnpm --dir .agents/skills/context-discovery install --frozen-lockfile
+      - name: Invoke adr-audit with GitHub Copilot
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_COPILOT_PROMPT_MODE_EXTENSIONS: "true"
+          AUDIT_PROMPT: |
+            adr-auditスキルを使ってNightly監査を行ってください。
+            このcheckoutはdocsリポジトリのmainです。
+            AGENTS.mdとcontext-discoveryの手順に従い、
+            .agents/skills/adr-audit/SKILL.mdを読んで実行してください。
+            ADR/内のすべてのdraft ADRを対象とし、audit: conflictも再監査します。
+            metadata検証だけでなく関連ADRの全文を比較してください。
+            意図された置換と意図しない競合を区別し、評価できない対象は通過扱いにしません。
+            規約とスキルに従ってstatus・audit・置換対象のstatusを更新してください。
+            編集は既存ADRのfront matterに限定し、本文や他のファイルは変更しません。
+            更新差分はartifactとして保存されます。git commitやpushは実行しません。
+            最終回答は日本語で、対象、監査結果、metadataの更新、未評価の範囲を報告し、
+            対象がない場合はその旨を明記してください。
+            実行や検証ができない場合は、成功したと報告せず理由を明記してください。
+        run: |
+          echo "Starting Copilot ADR audit on main."
+          git rev-parse HEAD > "$RUNNER_TEMP/adr-audit-base.txt"
+          pnpm dlx --silent @github/copilot@latest \
+            --prompt "$AUDIT_PROMPT" --silent --no-ask-user \
+            --disable-builtin-mcps --add-dir /tmp \
+            --allow-tool='read,write,shell(node:*),shell(rg:*),shell(cat:*),shell(ls:*)' \
+            > "$RUNNER_TEMP/adr-audit-report.md"
+          echo "Copilot ADR audit completed."
+      - name: Collect ADR changes
+        run: |
+          git diff --binary HEAD -- ADR/ > "$RUNNER_TEMP/adr-audit.patch"
+          if test -s "$RUNNER_TEMP/adr-audit.patch"; then
+            git diff --stat HEAD -- ADR/
+          else
+            echo "ADR metadata was unchanged; see the audit report for details."
+          fi
+      - name: Collect audited ADR metadata for conflict reporting
+        run: |
+          node .agents/skills/context-discovery/scripts/collect-frontmatter.mjs \
+            --docs-root . --path docs:ADR > "$RUNNER_TEMP/adr-audit-metadata.json"
+      - name: Publish audit report
+        if: always()
+        run: |
+          if test -s "$RUNNER_TEMP/adr-audit-report.md"; then
+            cat "$RUNNER_TEMP/adr-audit-report.md" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "ADR audit did not produce a report. Check the failed step logs." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: adr-audit-result
+          path: |
+            ${{ runner.temp }}/adr-audit-base.txt
+            ${{ runner.temp }}/adr-audit-metadata.json
+            ${{ runner.temp }}/adr-audit.patch
+            ${{ runner.temp }}/adr-audit-report.md
+          retention-days: 14
+
+  report-conflicts:
+    needs: audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.audit.outputs.commit }}
+          persist-credentials: false
+      - uses: actions/download-artifact@v8
+        with:
+          name: adr-audit-result
+          path: ${{ runner.temp }}/adr-audit
+      - name: Create issues for conflicting ADRs
+        uses: ./.github/actions/report-adr-conflicts
+        with:
+          result-directory: ${{ runner.temp }}/adr-audit
