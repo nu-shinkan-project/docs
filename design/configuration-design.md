@@ -136,6 +136,6 @@ release:
 
 ## リポジトリ処理とパッケージ処理の責務
 
-`packages/app-config` は各パッケージの設定読み取り・変換・生成を担当し、workspace列挙や他パッケージの設定ファイル読み取りは行わない。リポジトリ全体の列挙・接続グラフ・同期・接続先情報収集は `scripts/` が担当する。
+`packages/app-config` は各パッケージの設定読み取り・変換・生成を担当し、workspace列挙や他パッケージの設定ファイル読み取りは行わない。リポジトリ全体の列挙・接続グラフ・同期・接続先情報収集は `tools/` が担当する。
 
-`pnpm sync` は `scripts/sync-env/sync.ts` から `turbo run sync:local` を実行し、`sync:local` を登録した全パッケージへの反映に成功してから共有local設定のnullを削除する。タスク未登録のパッケージは配布対象外とする。各パッケージの `sync:local` はapp-configの `sync-local` CLIを実行する。app-configの単一パッケージ更新処理は`globalRuntimeEnvs.yaml`を変更しない。
+`pnpm sync` は `tools/sync-env/sync.ts` から `turbo run sync:local` を実行し、`sync:local` を登録した全パッケージへの反映に成功してから共有local設定のnullを削除する。タスク未登録のパッケージは配布対象外とする。各パッケージの `sync:local` はapp-configの `sync-local` CLIを実行する。app-configの単一パッケージ更新処理は`globalRuntimeEnvs.yaml`を変更しない。
