@@ -36,11 +36,28 @@ jobs:
           package_json_file: .agents/skills/context-discovery/package.json
       - name: Install metadata collection dependencies
         run: pnpm --dir .agents/skills/context-discovery install --frozen-lockfile
-      - name: Select pending draft ADRs
+      - name: Collect and select audit targets
+        run: |
+          node .agents/skills/context-discovery/scripts/collect-frontmatter.mjs \
+            --docs-root . --path docs:ADR > "$RUNNER_TEMP/adr-audit-before.json"
+          node .agents/skills/adr-audit/scripts/select-adr-audit-targets.mjs \
+            --input "$RUNNER_TEMP/adr-audit-before.json" > "$RUNNER_TEMP/adr-audit-targets.json"
+      - name: Check whether audit targets exist
         id: targets
-        uses: ./.github/actions/prepare-adr-audit
+        uses: actions/github-script@v9
+        env:
+          TARGETS_FILE: ${{ runner.temp }}/adr-audit-targets.json
+          REPORT_FILE: ${{ runner.temp }}/adr-audit-report.md
         with:
-          result-directory: ${{ runner.temp }}
+          script: |
+            const fs = require('node:fs/promises');
+            const count = JSON.parse(await fs.readFile(process.env.TARGETS_FILE, 'utf8')).length;
+            core.setOutput('has-targets', count > 0 ? 'true' : 'false');
+            core.info(`ADR audit targets: ${count}`);
+            if (count === 0) {
+              core.info('No audit targets; Copilot audit will be skipped.');
+              await fs.writeFile(process.env.REPORT_FILE, '監査対象のADRがないため、監査をスキップしました。\n');
+            }
       - name: Invoke adr-audit with GitHub Copilot
         if: steps.targets.outputs.has-targets == 'true'
         env:
