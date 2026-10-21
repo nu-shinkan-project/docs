@@ -57,14 +57,14 @@ purpose と profile は channel から一意に決まります．selection sourc
 
 ### デプロイの実行方式（mode）
 
-mode は，purpose と selection source の有効な組み合わせを表します．本モデルで扱う組み合わせは次の四つです．表では，mode を `(purpose, selection source)` と表記します．
+mode は，purpose と selection source の有効な組み合わせを表します．本モデルで扱う組み合わせは次の5つです．表では，mode を `(purpose, selection source)` と表記します．
 
 | Mode                      | 利用する channel  | 利用場面       | 振る舞い                                                       |
 | ------------------------- | ----------------- | -------------- | -------------------------------------------------------------- |
 | (`update`, `diff`)        | staging / release | 通常           | 差分の影響から更新が必要なリソースを選ぶ                       |
 | (`update`, `full`)        | staging / release | フォールバック | 全パッケージのうちデプロイ可能なものを更新する                 |
 | (`review`, `diff`)        | preview           | 通常           | 差分の影響を起点に，確認に必要な利用経路を選ぶ                 |
-| (`review`, `full`)        | preview           | フォールバック | 全パッケージのうちデプロイ可能なものをデプロイする             |
+| (`review`, `full`)        | preview           | フォールバック | 全パッケージを起点に，確認に必要な利用経路を選ぶ             |
 | (`review`, `manual-pick`) | preview           | フォールバック | 指定パッケージとその影響先を起点に，確認に必要な利用経路を選ぶ |
 
 mode は purpose と selection source をまとめて呼ぶ概念であり，それらとは独立した設定項目ではありません．すべての purpose と selection source を自由に組み合わせることはできません．

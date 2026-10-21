@@ -71,14 +71,9 @@ envs:
 
 ## connections
 
-`connections`は`preview`チャンネルデプロイ時に使用される．
+`connections`は，パッケージ間の実行時の利用関係を定める．`connections.bindings`はService Bindingによる接続を，`connections.urls`は環境変数に設定するベースURLによる接続を表す．
 
-`preview`チャンネルデプロイ時には，基本的には`staging`プロファイルの設定値が使われる．ただし，
-
-- `connections.bindings`に設定されたBINDING名をもつService Binding(`wrangler.jsonc`の設定項目)は，そのserviceを，必要なら，設定されたパッケージをデプロイした`preview`用ワーカーに差し替えられる．
-- `connections.urls`に設定された環境変数は，その内容を，必要なら，設定されたパッケージをデプロイした`preview`用ワーカーへのベースURLに差し替えられる．
-
-実際に差し替えが発生する条件に関する詳細な説明は，deployに関する文書を参照のこと．
+`connections.urls`で設定された環境変数が存在しない場合は，worker.devドメインへのURLにフォールバックする．
 
 ## reviewEntry
 
