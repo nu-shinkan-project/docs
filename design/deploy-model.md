@@ -57,13 +57,14 @@ purpose と profile は channel から一意に決まります．selection sourc
 
 ### デプロイの実行方式（mode）
 
-mode は，purpose と selection source の有効な組み合わせを表します．本モデルで扱う組み合わせは次の四つです．表では，mode を `(purpose, selection source)` と表記します．
+mode は，purpose と selection source の有効な組み合わせを表します．本モデルで扱う組み合わせは次の5つです．表では，mode を `(purpose, selection source)` と表記します．
 
 | Mode                      | 利用する channel  | 利用場面       | 振る舞い                                                       |
 | ------------------------- | ----------------- | -------------- | -------------------------------------------------------------- |
 | (`update`, `diff`)        | staging / release | 通常           | 差分の影響から更新が必要なリソースを選ぶ                       |
 | (`update`, `full`)        | staging / release | フォールバック | 全パッケージのうちデプロイ可能なものを更新する                 |
 | (`review`, `diff`)        | preview           | 通常           | 差分の影響を起点に，確認に必要な利用経路を選ぶ                 |
+| (`review`, `full`)        | preview           | フォールバック | 全パッケージを起点に，確認に必要な利用経路を選ぶ             |
 | (`review`, `manual-pick`) | preview           | フォールバック | 指定パッケージとその影響先を起点に，確認に必要な利用経路を選ぶ |
 
 mode は purpose と selection source をまとめて呼ぶ概念であり，それらとは独立した設定項目ではありません．すべての purpose と selection source を自由に組み合わせることはできません．
@@ -180,9 +181,10 @@ purpose が `review` の場合は，変更をレビューする人へ，確認�
 
 本来デプロイしたかったリソースがデプロイされなかった場合や，差分から対象を正しく選べない場合は，channel，purpose，profile を維持し，selection source を変更検知によらないものに切り替えます．この切り替えによって mode も変わります．フォールバックは mode の利用場面を表し，独立した fallback-mode は設けません．
 
-purpose が `update` の場合は，selection source を `full` とした mode (`update`, `full`) を使用し，対象の版にあるデプロイ可能な全パッケージを再デプロイします．また，mode (`update`, `diff`) の計画中に比較基準がないなどの理由で差分を正しく検出できない場合も，対象の版を維持して (`update`, `full`) に切り替えます．
+selection source が `diff`である場合の自動フォールバックは`full`です．
 
-purpose が `review` の場合は，selection source を `manual-pick` とした mode (`review`, `manual-pick`) を使用します．デプロイを要求する人が起点となるパッケージを指定し，その影響先と確認に必要な利用経路から対象を選び直します． (`review`, `manual-pick`) は自動フォールバックせず，失敗を通知するにとどめます．
+手動フォールバックとしては，purpose が `update` の場合は，selection source を `full` とした mode (`update`, `full`) を使用し，
+purpose が `review` の場合は，selection source を `manual-pick` とした mode (`review`, `manual-pick`) を使用します．
 
 フォールバックの具体的な起動方法や切り替え条件は，[設計ドキュメント](deploy-design.md)で定めます．
 
